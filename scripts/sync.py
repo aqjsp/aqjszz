@@ -98,8 +98,9 @@ def rewrite_images(md, repo, branch):
     return re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', repl, md)
 
 
-def build_sidebar_items(paths, slug):
-    """把仓库内 .md 路径构造成 VitePress 侧边栏嵌套结构"""
+def build_sidebar_items(paths, slug, prefix=''):
+    """把仓库内 .md 路径构造成 VitePress 侧边栏嵌套结构
+    prefix 累积子目录前缀，保证链接是完整路径 /<slug>/<dir>/<file>"""
     nodes = []
     dirs = {}
     files = []
@@ -111,10 +112,11 @@ def build_sidebar_items(paths, slug):
             dirs.setdefault(parts[0], []).append('/'.join(parts[1:]))
 
     for d in sorted(dirs):
-        nodes.append({'text': d, 'collapsed': False, 'items': build_sidebar_items(dirs[d], slug)})
+        nodes.append({'text': d, 'collapsed': False,
+                      'items': build_sidebar_items(dirs[d], slug, prefix + d + '/')})
     for f in sorted(files, key=lambda s: s.lower()):
         title = f[:-3] if f.lower().endswith('.md') else f
-        link = f'/{slug}/{f[:-3] if f.lower().endswith(".md") else f}'
+        link = f'/{slug}/{prefix}{f[:-3] if f.lower().endswith(".md") else f}'
         nodes.append({'text': title, 'link': link})
     return nodes
 
