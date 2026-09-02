@@ -1,0 +1,180 @@
+/* ==========================================================
+   阿Q技术站 —— VitePress 定制主题
+   品牌：JavaGuide 蓝 + 靛紫渐变点缀；精致、干净、阅读优先
+   ========================================================== */
+
+:root {
+  /* 品牌色 */
+  --vp-c-brand-1: #439bd5;
+  --vp-c-brand-2: #2a82bc;
+  --vp-c-brand-3: #1f6ea6;
+  --vp-c-brand-soft: rgba(67, 155, 213, 0.14);
+
+  /* 文字 */
+  --vp-c-text-1: #1a1a1a;
+  --vp-c-text-2: #4e5969;
+  --vp-c-text-3: #8a919f;
+
+  /* 背景 */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-soft: #f6f8fa;
+  --vp-c-bg-alt: #f1f3f6;
+  --vp-c-bg-elv: #ffffff;
+
+  /* 分割线 / 边框 */
+  --vp-c-divider: #e6e8ee;
+  --vp-c-border: #e2e5ea;
+  --vp-c-border-hard: #d3d7de;
+
+  /* 渐变（品牌点缀） */
+  --aq-grad: linear-gradient(120deg, #439bd5, #7c5cff);
+
+  /* 圆角 */
+  --vp-radius: 12px;
+  --vp-radius-sm: 8px;
+
+  /* 字体 */
+  --vp-font-family-base: -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --vp-font-family-mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+
+  /* 首页 hero */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: var(--aq-grad);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #a8d8f0 30%, #c9b8ff 60%);
+  --vp-home-hero-image-filter: blur(56px);
+}
+
+html.dark {
+  --vp-c-brand-1: #5daee0;
+  --vp-c-brand-2: #7cb9e6;
+  --vp-c-brand-3: #95c7ee;
+  --vp-c-brand-soft: rgba(93, 174, 224, 0.16);
+
+  --vp-c-text-1: #e6edf3;
+  --vp-c-text-2: #9aa4b2;
+  --vp-c-text-3: #6b7686;
+
+  --vp-c-bg: #12161f;
+  --vp-c-bg-soft: #1a2030;
+  --vp-c-bg-alt: #1e2435;
+  --vp-c-bg-elv: #161b27;
+
+  --vp-c-divider: #262d3b;
+  --vp-c-border: #2c3444;
+  --vp-c-border-hard: #3a4356;
+
+  --aq-grad: linear-gradient(120deg, #6db8e6, #9d85ff);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #1d4e6b 30%, #3a2f6b 60%);
+}
+
+/* ---------- 导航栏 ---------- */
+.VPNavBar {
+  border-bottom: 1px solid var(--vp-c-divider) !important;
+  background: color-mix(in srgb, var(--vp-c-bg) 82%, transparent) !important;
+  backdrop-filter: blur(12px);
+}
+.VPNavBarTitle .title {
+  font-weight: 700;
+}
+
+/* ---------- 首页 Hero ---------- */
+.VPHomeHero {
+  padding-bottom: 56px;
+}
+.VPHomeHero .name {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.VPHomeHero .text {
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+}
+.VPHomeHero .tagline {
+  max-width: 620px;
+  line-height: 1.8;
+}
+.VPHomeHero .actions .VPButton {
+  border-radius: 999px;
+  padding: 10px 28px;
+  font-weight: 600;
+}
+.VPHomeHero .actions .VPButton.medium.brand {
+  background: var(--aq-grad) !important;
+  box-shadow: 0 8px 20px rgba(67, 155, 213, 0.35);
+}
+.VPHomeHero .actions .VPButton.medium.alt {
+  border: 1px solid var(--vp-c-border-hard);
+}
+
+/* ---------- Feature 卡片 ---------- */
+.VPFeature {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--vp-radius);
+  background: var(--vp-c-bg-soft);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.VPFeature:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(28, 32, 48, 0.08);
+  border-color: var(--vp-c-brand-1);
+}
+.VPFeature .icon {
+  border-radius: var(--vp-radius-sm);
+  font-size: 20px;
+}
+.VPFeature .title {
+  font-weight: 700;
+}
+.VPFeature .details {
+  line-height: 1.7;
+}
+
+/* ---------- 侧边栏 / 大纲 ---------- */
+.VPSidebarItem.is-active > .item .text {
+  font-weight: 600;
+}
+.VPSidebarItem.level-0 .text {
+  font-weight: 700;
+}
+.VPDocOutlineItem.is-active > .outline-link {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+/* ---------- 正文排版 ---------- */
+.vp-doc h1, .vp-doc h2, .vp-doc h3, .vp-doc h4 {
+  font-weight: 800;
+  scroll-margin-top: 80px;
+}
+.vp-doc h2 {
+  border-top: 0;
+  margin-top: 40px;
+  padding-top: 0;
+}
+.vp-doc p {
+  line-height: 1.85;
+}
+.vp-doc blockquote {
+  border-radius: 0 8px 8px 0;
+}
+.vp-doc :not(pre) > code {
+  border-radius: 5px;
+}
+
+/* ---------- 页脚 ---------- */
+.VPFooter {
+  border-top: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- 响应式细节 ---------- */
+@media (max-width: 960px) {
+  .VPHomeHero .name {
+    font-size: 34px !important;
+  }
+  .VPHomeHero .text {
+    font-size: 24px !important;
+  }
+}
