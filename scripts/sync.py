@@ -28,38 +28,37 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = os.path.join(ROOT, 'docs')
 VPRESS = os.path.join(DOCS, '.vitepress')
 
-# 「面试经典算法题NN-xxx」按题目序号数字排序（7,8,9,10…15），而不是按字符串（10…15,7,8,9）
+# 「面试经典算法题NN-xxx」按题目序号数字排序（7,8,9,10…15），而不是按字符串（10…15,7,8,9）。
+# 文件名已英文化（无编号），题号从 scripts/slugs.py 的中文原始路径提取。
 ALGO_NUM_RE = re.compile(r'^面试经典算法题?(\d+)')
 
+# 英文相对路径(含 .md，相对专栏根) → 题目序号（面试经典100题 用，保证原题顺序）
+SLUG_ALGO_NUM = {}
+for _ch, _en in SLUGS.items():
+    _m = ALGO_NUM_RE.match(_ch.split('/')[-1])
+    if _m:
+        SLUG_ALGO_NUM['/'.join(_en.split('/')[1:]) + '.md'] = int(_m.group(1))
 
-def natural_file_key(name):
-    """侧边栏文件排序：面试经典算法题按序号数字排，其余按字母序"""
-    m = ALGO_NUM_RE.match(name)
-    if m:
-        return (0, int(m.group(1)), name.lower())
-    return (1, 0, name.lower())
+
+def file_sort_key(rel):
+    """侧边栏文件排序：面试经典算法题按序号数字排，其余按字母序。rel 为相对专栏根的路径(含 .md)"""
+    n = SLUG_ALGO_NUM.get(rel)
+    if n is not None:
+        return (0, n, rel.lower())
+    return (1, 0, rel.lower())
 
 
-def _dir_min_algo(subpaths):
-    """取目录直接子文件中最小题目序号；没有则返回 None。
-    只统计直接子文件（不含子目录里更深层文件），避免把外层目录误判。"""
+def dir_sort_key(d, subpaths, prefix):
+    """侧边栏目录排序：目录直接子文件带题目序号的（如 面试经典100题 各分类），
+    按最小序号排（双指针1、链表7、二叉树16…）；其余目录保持字母序。"""
     nums = []
     for p in subpaths:
         if '/' in p:
             continue
-        m = ALGO_NUM_RE.match(p)
-        if m:
-            nums.append(int(m.group(1)))
-    return min(nums) if nums else None
-
-
-def natural_dir_key(d, subpaths):
-    """侧边栏目录排序：目录直接子文件带题目序号的（如 面试经典100题 各分类），
-    按最小序号排（双指针1、链表7、二叉树16…）；其余目录保持字母序。"""
-    m = _dir_min_algo(subpaths)
-    if m is not None:
-        return (0, m, d.lower())
-    return (1, 0, d.lower())
+        n = SLUG_ALGO_NUM.get(prefix + d + '/' + p)
+        if n is not None:
+            nums.append(n)
+    return (0, min(nums), d.lower()) if nums else (1, 0, d.lower())
 
 
 def link_path(p):
@@ -190,10 +189,10 @@ def build_sidebar_items(paths, slug, prefix=''):
         else:
             dirs.setdefault(parts[0], []).append('/'.join(parts[1:]))
 
-    for d in sorted(dirs, key=lambda d: natural_dir_key(d, dirs[d])):
+    for d in sorted(dirs, key=lambda d: dir_sort_key(d, dirs[d], prefix)):
         nodes.append({'text': DIR_TITLES.get(d, d), 'collapsed': True,
                       'items': build_sidebar_items(dirs[d], slug, prefix + d + '/')})
-    for f in sorted(files, key=natural_file_key):
+    for f in sorted(files, key=lambda f: file_sort_key(prefix + f)):
         url = article_url(prefix + f, slug)
         title = SLUG_TITLES.get(url, f[:-3] if f.lower().endswith('.md') else f)
         link = f'/{url}.html'
