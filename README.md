@@ -1,6 +1,6 @@
 # aqjszz · 阿Q技术站网站
 
-用 [VitePress](https://vitepress.dev/)（JavaGuide 同款引擎）搭建的技术文档站：
+用 [VitePress](https://vitepress.dev/)搭建的技术文档站：
 左目录、中正文、右大纲、站内搜索、深浅色，全部由成熟主题提供。
 
 - 内容源：`github.com/aqjsp` 下的 10 个仓库（C++ / Go / 计算机网络 / 操作系统 / 数据结构 / 数据库 / 算法刷题 / Git / Linux / 后端面经）
@@ -45,6 +45,6 @@ aqjszz/
     ├── .vitepress/
     │   ├── config.mts     # 站点配置
     │   └── sidebar.ts     # 侧边栏（sync 自动生成）
-    ├── public/aq.svg      # logo
+    ├── public/aq.png      # logo（GitHub 头像）
     └── cpp/ network/ ...  # 各专栏内容（sync 自动生成）
 ```
